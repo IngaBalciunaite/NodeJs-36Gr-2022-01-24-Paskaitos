@@ -1,3 +1,4 @@
+import { create } from 'domain';
 import {readFile, appendFile, writeFile} from 'fs/promises'
 
 // Patalpinimas tekstiniame faile
@@ -66,10 +67,19 @@ const masyvoTalpinimas = async (failas) => {
     return true
 }
 
-if(masyvoTalpinimas('database.json')) 
-    console.log('Masyvas issaugotas')
-else
-    console.log('Ivyko klaida')
+masyvoTalpinimas('database.json')
+.then(resp => {
+    console.log(resp)
+})
+.catch(rejected => {
+    console.log(rejected)
+})
+
+//CRUD
+//CREATE
+//READ
+//UPDATE
+//DELETE
 
 //developmental
 //production

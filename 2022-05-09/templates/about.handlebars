@@ -1,0 +1,33 @@
+{{!-- Du riestiniai skliaustai atvaizduoja teksta, be html, o trys priskiria html elementus --}}
+{{#if z}}
+Informacija apie klienta: {{y}}, kurio ID yra {{x}}
+{{else}}
+Tokio id nera
+{{/if}}
+
+{{!-- Masyvo paleidimas be ciklo, atskiriant kiekviena reiksme kableliu --}}
+{{array}}
+
+{{!-- Masyvo paleidimas cikle --}}
+{{#if array}}
+    <ul>
+        {{#each array}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+{{/if}}
+
+{{#if object}}
+    <ul>
+        {{#each object}}
+            <li>{{vardas}} {{pavarde}}</li>
+        {{/each}}
+    </ul>
+{{/if}}
+
+<ul>
+    {{#with salis}}
+        <li>Šalis: {{pavadinimas}}</li>
+        <li>Sostinė: {{sostine}}</li>
+    {{/with}}
+</ul>
