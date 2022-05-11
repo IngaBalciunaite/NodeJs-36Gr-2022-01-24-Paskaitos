@@ -28,9 +28,9 @@
 </style>
 
 <main class="form-signin">
-    {{#if message}}
-        <div class="alert alert-{{status}}" role="alert">
-            {{message}}
+    {{#if returned.message}}
+        <div class="alert alert-{{returned.status}}" role="alert">
+            {{returned.message}}
         </div>
     {{/if}}
     <form>
