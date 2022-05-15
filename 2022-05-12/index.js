@@ -92,10 +92,12 @@ app.post('/approve-transfer', async (req, res) => {
             let database = JSON.parse(db)
             //Nauju perduotu duomenu pridejimas i is failo paimta masyva
             database.push(req.body)
+            //Susigraziname paskutinio i masyva prideto elemento indeksa
+            const id = database.length - 1
             //Papildyto masyvo irasymas atgal duomenu bazes faila
             await writeFile(file, JSON.stringify(database), 'utf8')
             //Grazinamas rezultatas pagal sablona su uzpildytais duomenimis
-            res.render('approve-transfer', req.body)
+            res.render('approve-transfer', {data: req.body, id})
             
         } catch {
             //Jeigu ivyko klaida perskaitant arba irasinejant duomenis i faila ivykdomas nukreipimas su zinute
@@ -117,8 +119,44 @@ app.post('/approve-transfer', async (req, res) => {
     res.redirect('/account?message=Neteisingai užpildyti duomenys&status=danger')
 })
 
-app.get('/transfer/:id', (req, res) => {
-    res.send('Gautas id: ' + req.params.id)
+app.get('/transfer-approved/:id', async (req, res) => {
+    const id = req.params.id
+
+    try {
+        //Duomenu bazes failo perskaitymas
+        const db = await readFile(file, 'utf8')
+        //Faile esancio turinio konvertavimas is stringo i masyva
+        let database = JSON.parse(db)
+        //Statuso priskyrimas prie iraso kurio masyvo indeksas yra perduotas id
+        database[id].status = 'approved'
+        //Papildyto masyvo irasymas atgal duomenu bazes faila
+        await writeFile(file, JSON.stringify(database), 'utf8')
+        //Grazinamas rezultatas pagal sablona su uzpildytais duomenimis
+        res.redirect('/account?message=Pavedimas atliktas&status=success')
+    } catch {
+        //Jeigu ivyko klaida perskaitant arba irasinejant duomenis i faila ivykdomas nukreipimas su zinute
+        res.redirect('/account?message=Įvyko klaida&status=danger')
+    }
+})
+
+app.get('/transfer-rejected/:id', async (req, res) => {
+    const id = req.params.id
+
+    try {
+        //Duomenu bazes failo perskaitymas
+        const db = await readFile(file, 'utf8')
+        //Faile esancio turinio konvertavimas is stringo i masyva
+        let database = JSON.parse(db)
+        //Statuso priskyrimas prie iraso kurio masyvo indeksas yra perduotas id
+        database[id].status = 'rejected'
+        //Papildyto masyvo irasymas atgal duomenu bazes faila
+        await writeFile(file, JSON.stringify(database), 'utf8')
+        //Grazinamas rezultatas pagal sablona su uzpildytais duomenimis
+        res.redirect('/account?message=Pavedimas atšauktas&status=danger')
+    } catch {
+        //Jeigu ivyko klaida perskaitant arba irasinejant duomenis i faila ivykdomas nukreipimas su zinute
+        res.redirect('/account?message=Įvyko klaida&status=danger')
+    }
 })
 
 

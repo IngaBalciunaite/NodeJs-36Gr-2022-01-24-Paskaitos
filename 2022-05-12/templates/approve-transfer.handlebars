@@ -1,0 +1,10 @@
+<h1>Ar pavedimo duomenys yra teisingi?</h1>
+<ul>
+    <li>Sąskaitos numeris: {{data.account_number}}</li>
+    <li>Gavėjo vardas ir pavardė: {{data.recipient}}</li>
+    <li>Mokėjimo paskirtis: {{data.reference}}</li>
+    <li>Suma: {{data.amount}}</li>
+</ul>
+
+<a href="/transfer-approved/{{id}}" class="btn btn-primary">Patvirtinti</a>
+<a href="/transfer-rejected/{{id}}" class="btn btn-danger">Atmesti</a>
