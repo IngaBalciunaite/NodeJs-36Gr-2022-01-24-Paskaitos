@@ -18,7 +18,7 @@
     </thead>
     <tbody>
         {{#each data}}
-            <tr>
+            <tr {{#if done}}class="taskDone"{{/if}}>
                 <td><a href="/complete-task/{{@key}}">{{task}}</a></td>
                 <td>{{date}}</td>
                 <td class="text-end"><a href="/delete-task/{{@key}}" class="btn btn-danger">Delete</a></td>

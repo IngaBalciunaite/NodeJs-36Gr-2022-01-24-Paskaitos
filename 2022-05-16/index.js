@@ -50,6 +50,27 @@ app.get('/delete-task/:id', async (req, res) => {
     }
 })
 
+app.get('/complete-task/:id', async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const data = await readFile(file, 'utf8')
+        let json = JSON.parse(data)
+        // if(!json[id].done) {
+        //     json[id].done = true
+        // } else {
+        //     json[id].done = !json[id].done 
+        // }
+
+        json[id].done = !json[id].done
+
+        await writeFile(file, JSON.stringify(json), 'utf8')
+        res.redirect('/?message=Užduotis sėkmingai užbaigta&status=success')
+    } catch {
+        res.redirect('/?message=Nepavyko užbaigti užduoties&status=danger')
+    }
+})
+
 app.post('/add-task', async (req, res) => {
     const task = req.body.task
     if(!task) {
