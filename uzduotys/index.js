@@ -87,9 +87,4 @@ app.get('/zmones/:pavarde', async (req, res) => {
 
 })
 
-
-
-
-
-
 app.listen(3000)
