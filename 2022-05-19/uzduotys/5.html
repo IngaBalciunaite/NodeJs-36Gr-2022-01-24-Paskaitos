@@ -13,7 +13,7 @@
             return Math.floor(Math.random() * (max - min + 1) + min);
         }
 
-        let round = 1
+        let round = 0
         const points = {human: 0, computer: 0}
 
         const block = document.createElement('div')
@@ -34,7 +34,7 @@
         })
 
         const moveBlock = () => {
-            if(round > 10) {
+            if(round >= 3) {
                 block.style.display = 'none'
 
                 const winner = points.human > points.computer ? 'Žmogus' : 'Kompiuteris'
@@ -46,12 +46,13 @@
                 document.body.innerHTML += results
 
                 return false
-            }   
-
-            if(block.dataset.round == (round - 1)) {
+            }  
+             
+            if(block.dataset.round == round) {
                 points.human += 1  
-            } else { 
-                points.computer += 1
+            } else {
+                if(round != 0) 
+                    points.computer += 1 
             }
 
             block.style.top = random(0, height - 50) + 'px'

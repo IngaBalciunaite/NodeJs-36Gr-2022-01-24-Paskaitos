@@ -5,20 +5,74 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vizitine kortele</title>
+    <link href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        .profile-block {
+            display: none;
+        }
+        .show {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <h1>Puslapis</h1>
+    <div id="root"></div>
     <script>
         fetch('https://randomuser.me/api/')
         .then(resp => resp.json())
         .then(resp => {
             console.log(resp)
-            console.log(resp.results[0].picture.large)
-            document.body.innerHTML += `<img src="${resp.results[0].picture.large}">`
-            
-            document.querySelector('h1').addEventListener('mouseenter', () => {
-                console.log('Pele uzvesta')
-            })
+
+            const result = resp.results[0]
+            const dob = new Date(result.dob.date)
+            const formatedDOB = dob.toLocaleDateString('lt-LT')
+            const address = result.location.street.name + ' ' + result.location.street.number
+
+            let html = `<div class="text-center profile-card">
+                            <div class="profile-image ">
+                                <img src="${result.picture.large}" class="border rounded-circle">
+                            </div>
+                            <div class="profile-block" data-id="1">
+                                <p class="h5">Hi, My name is</p>
+                                <h1>${result.name.first} ${result.name.last}</h1>
+                            </div>
+                            <div class="profile-block" data-id="2">
+                                <p class="h5">My birthday is</p>
+                                <h1>${formatedDOB}</h1>
+                            </div>
+                            <div class="profile-block" data-id="3">
+                                <p class="h5">My address is</p>
+                                <h1>${address}</h1>
+                            </div>
+                            <div class="profile-block" data-id="4">
+                                <p class="h5">My phone number is</p>
+                                <h1>${result.phone}</h1>
+                            </div>
+                            <div class="profile-block" data-id="5">
+                                <p class="h5">My password is</p>
+                                <h1>${result.login.password}</h1>
+                            </div>
+                            <div class="icons-list">
+                                <a href="#" data-id="1"><span class="mdi mdi-account"></span></a>
+                                <a href="#" data-id="2"><span class="mdi mdi-email"></span></a>
+                                <a href="#" data-id="3"><span class="mdi mdi-map-outline"></span></a>
+                                <a href="#" data-id="4"><span class="mdi mdi-phone-bluetooth"></span></a>
+                                <a href="#" data-id="5"><span class="mdi mdi-lock-open-outline"></span></a>
+                            </div>
+                        </div>`
+
+                document.getElementById('root').innerHTML = html
+
+                document.querySelector('[data-id="1"]').classList.add('show')
+                document.querySelectorAll('.icons-list a').forEach(element => {
+                    element.addEventListener('mouseenter', (e) => {
+                        const id = e.target.dataset.id
+                        document.querySelector('.show').classList.remove('show')
+                        document.querySelector(`.profile-block[data-id="${id}"]`).classList.add('show')
+                    })
+                })
+
         })
     </script>
 </body>
