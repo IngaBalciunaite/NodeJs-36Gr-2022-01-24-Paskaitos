@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Šešta užduotis</title>
+    <style>
+        .video {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="play-video">Žiūrėti video</button>
+    <script>
+        const video = '<iframe width="560" height="315" src="https://www.youtube.com/embed/BT2Cv-Tjq7Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+        const modal = `<div class="video">
+                            ${video}
+                            <button class="close">Uždaryti video</button>
+                        </div>`
+
+        document.body.innerHTML += modal
+
+        document.querySelector('.play-video').addEventListener('click', () => {
+            document.querySelector('.video').style.display = 'block'
+        })
+
+        document.querySelector('button.close').addEventListener('click', () => {
+            document.querySelector('.video').style.display = 'none'
+        })
+    </script>
+</body>
+</html>
