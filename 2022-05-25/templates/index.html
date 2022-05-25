@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vizitine kortele</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        .weather {
+            text-align: center;
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        fetch('http://localhost:3000/api/weather')
+        .then(resp => resp.json())
+        .then(resp => {
+            let image = ''
+            if(resp.condition === 'windy')
+                image = '<img width="100" src="https://toppng.com/uploads/preview/computer-icons-weather-wind-rain-windy-weather-icon-11553394233bil1pfsjcf.png" />'
+
+            if(resp.condition === 'rain')
+                image = '<img width="100" src="https://cdn-icons-png.flaticon.com/512/116/116251.png" />'
+    
+            if(resp.condition === 'sunshine')
+                image = '<img width="100" src="https://media.istockphoto.com/vectors/sunset-sun-icon-vector-id1288822874?k=20&m=1288822874&s=170667a&w=0&h=uWt46WBnzPE_37-d6BNkf-qz2bWPAuxaUpMEDMn_AH4=" />'
+
+
+            let html = `<div class="weather">
+                            <div class="image">${image}</div>
+                            <div class="degrees">${resp.degrees} °C</div>
+                            <div class="location">${resp.location}</div>
+                            <div class="condition">${resp.condition}</div>
+                            <div class="wind-speed">${resp.windSpeed} Mps</div>
+                            <div class="humidity">${resp.humidity}%</div>
+                        </div>`
+
+            document.body.innerHTML += html
+        })
+    </script>
+</body>
+</html>
