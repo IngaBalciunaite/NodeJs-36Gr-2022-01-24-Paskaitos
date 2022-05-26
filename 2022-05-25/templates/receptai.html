@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receptai</title>
+    <style>
+        .receptas img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="buttons">
+        <button onclick="receptoUzkrovimas(this)" data-id="1">Pirmas receptas</button>
+        <button onclick="receptoUzkrovimas(this)" data-id="2">Antras receptas</button>
+        <button onclick="receptoUzkrovimas(this)" data-id="3">Trecias receptas</button>
+    </div>
+    <div id="receptai"></div>
+    <script>
+        const receptoUzkrovimas = (element) => {
+            const id = element.dataset.id
+            //const id = element.getAttribute('data-id')
+            fetch('http://localhost:3000/receptas/' + id)
+            .then(resp => resp.json())
+            .then(resp => {
+                let html = `<div class="receptas">
+                                <div class="nuotrauka"><img src="${resp.nuotrauka}" /></div>
+                                <div class="ingridientai">${resp.ingridientai}</div>
+                                <div class="paruosimas">${resp.paruosimas}</div>
+                            </div>`
+
+                document.getElementById('receptai').innerHTML = html
+            })
+        }
+    </script>
+</body>
+</html>
