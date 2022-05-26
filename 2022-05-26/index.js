@@ -12,7 +12,7 @@ mongoose.connect('mongodb://localhost:27017/profiles', (err) => {
         console.log('Prisijungta prie mongodb')
 })
 
-console.log( await details.find().exec() )
+console.log( await details.find() )
 
 const __dirname = dirname( fileURLToPath(import.meta.url) )
 
