@@ -36,6 +36,20 @@ app.get('/get-people', async (req, res) => {
     res.json(await PersonDetails.find())
 })
 
+app.get('/delete/:id', async (req, res) => {
+    const id = req.params.id
+
+    const deleted = await PersonDetails.deleteOne({
+        _id: id
+    })
+
+    if(deleted.deletedCount > 0) {
+        res.status(200).send('Įrašas sėkmingai ištrintas')
+    } else {
+        res.status(400).send('Nepavyko rasto tokio įrašo')
+    }
+})
+
 app.listen(3000)
 
 
