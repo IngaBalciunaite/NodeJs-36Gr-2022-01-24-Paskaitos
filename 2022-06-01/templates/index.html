@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+</head>
+<body>
+    <div id="todolist"></div>
+    <script>
+        // fetch('http://localhost:3000/api/tasks/all')
+        // .then(async resp => {
+        //     if(resp.status === 200)
+        //         console.log(await resp.json())
+        //     else 
+        //         console.log('Nepavyko gauti duomenu')
+        // })
+        const fetchData = async (url) => {
+            const tasks = await fetch(url)
+                
+            if(tasks.status === 200)
+                return await tasks.json()
+            else 
+                return 'Nepavyko gauti duomenu'
+        }
+
+        const editTask = (e) => {
+            console.log('Bandymas redaguoti')
+        }
+
+        const taskList = async () => {
+            const tasks = await fetchData('http://localhost:3000/api/tasks/all')
+
+            let html = '<ul>'
+
+            tasks.map( task => {
+                html += `<li data-id="${task._id}">
+                            <span>${task.taskName}</span>
+                            <button class="btn btn-primary" onclick="editTask(event)">Redaguoti</button>
+                            <button class="btn btn-danger">Trinti</button>
+                        </li>`
+            })
+
+            html += '</ul>'
+
+            document.querySelector('#todolist').innerHTML = html
+
+            // for(const task of tasks) {
+            //     console.log(task)
+            // }
+        }
+
+        taskList()
+    </script>
+</body>
+</html>
