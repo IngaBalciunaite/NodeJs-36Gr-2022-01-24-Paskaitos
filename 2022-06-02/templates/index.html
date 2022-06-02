@@ -36,6 +36,18 @@
             }
         }
 
+        const deleteTask = async (e) => {
+            const element = e.target
+            const parent = element.parentNode.parentNode
+            const id = parent.dataset.id
+
+            if(await fetchData('http://localhost:3000/api/tasks/delete/' + id, 'DELETE')) {
+                taskList('Užduotis sėkmingai ištrinta')
+            } else {
+                taskList('Nepavyko ištrinti užduoties', 'danger')
+            }
+        }
+
         const editTask = async (e) => {
             const element = e.target
             const parent = element.parentNode.parentNode
@@ -62,6 +74,22 @@
             task.innerHTML = `<input type="text" class="form-control" value="${taskName}">`
         }
 
+        const addTask = async (event) => {
+            event.preventDefault()
+
+            const url = event.target.getAttribute('action')
+            const taskName = event.target.querySelector('input[name="taskName"]').value
+
+            if(await fetchData(url, 'POST', {
+                taskName: taskName,
+                done: false
+            })) {
+                taskList('Užduotis sėkmingai patalpinta')
+            } else {
+                taskList('Nepavyko patalpinti užduoties', 'danger')
+            }
+        } 
+
         const taskList = async (message = '', status = 'success') => {
             const tasks = await fetchData('http://localhost:3000/api/tasks/all')
             let html = ''
@@ -70,6 +98,14 @@
                 html += `<div class="alert alert-${status}">${message}</div>`
 
             html += `<table class="table mt-3 align-middle">
+                        <thead>
+                            <th colspan="3">
+                                <form action="http://localhost:3000/api/tasks/new/" onsubmit="addTask(event)">
+                                    <input name="taskName" class="form-control">
+                                    <button type="submit" class="btn btn-primary">Pridėti užduotį</button>    
+                                </form>
+                           </th>
+                        </thead>
                         <tbody>
                         `
 
@@ -78,7 +114,7 @@
                             <td class="task-name">${task.taskName}</td>
                             <td class="text-end">
                                 <button class="btn btn-primary" onclick="editTask(event)">${editText}</button>
-                                <button class="btn btn-danger">Trinti</button>
+                                <button class="btn btn-danger" onclick="deleteTask(event)">Trinti</button>
                             </td>
                         </tr>`
             })
