@@ -75,7 +75,7 @@
         }
 
         const addTask = async (event) => {
-            event.preventDefault()
+            event.preventDefault() //Metodas sustabdo standartinį html formos veikimą
 
             const url = event.target.getAttribute('action')
             const taskName = event.target.querySelector('input[name="taskName"]').value
