@@ -42,8 +42,9 @@ app.post('/authenticate', (req, res) => {
         } else {  
             res.sendStatus(401)
         }
+    } else {
+        res.sendStatus(202)
     }
-    res.sendStatus(202)
 })
 
 app.listen(3000)
